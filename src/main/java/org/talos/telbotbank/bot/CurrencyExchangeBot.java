@@ -34,30 +34,34 @@ public class CurrencyExchangeBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
 
             switch (messageText) {
-                case "/start":
-                    startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    break;
-                default:
+                case "/start" -> startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
+                default -> {
                     try {
                         currency = CurrencyService.getCurrencyRate(messageText, currencyModel);
                     } catch (IOException e) {
-                        sendMessage(chatId, "We have not found such a currency." + "\n" +
-                                "Enter the currency whose official exchange rate" + "\n" +
-                                "you want to know in relation to BYN." + "\n" +
-                                "For example: USD");
+                        sendMessage(chatId,
+                                """
+                                        We have not found such a currency.
+                                        Enter the currency whose official exchange rate
+                                        you want to know in relation to BYN.
+                                        For example: USD
+                                        """);
                     } catch (ParseException e) {
                         throw new RuntimeException("Unable to parse date");
                     }
                     sendMessage(chatId, currency);
+                }
             }
         }
     }
 
     private void startCommandReceived(Long chatId, String name) {
-        String answer = "Hi, " + name + ", nice to meet you!" + "\n" +
-                "Enter the currency whose official exchange rate" + "\n" +
-                "you want to know in relation to BYN." + "\n" +
-                "For example: USD";
+        String answer = String.format("""
+                Hi, %s, nice to meet you!
+                Enter the currency whose official exchange rate
+                you want to know in relation to BYN.
+                For example: USD
+                """, name);
         sendMessage(chatId, answer);
     }
 
@@ -69,8 +73,7 @@ public class CurrencyExchangeBot extends TelegramLongPollingBot {
                 .build();
         try {
             execute(sendMessage);
-        } catch (TelegramApiException e) {
-
+        } catch (TelegramApiException ignored) {
         }
     }
 }
