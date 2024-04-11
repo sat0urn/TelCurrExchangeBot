@@ -15,8 +15,8 @@ import java.text.ParseException;
 @Component
 public class CurrencyExchangeBot extends TelegramLongPollingBot {
 
-    public CurrencyExchangeBot(@Value("${TG_TOKEN}") String botToken) {
-        super(System.getenv("TG_TOKEN"));
+    public CurrencyExchangeBot(@Value("${bot.token}") String botToken) {
+        super(botToken);
     }
 
     @Override
