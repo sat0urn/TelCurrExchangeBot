@@ -8,7 +8,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
-public class CurrencyExchangeBotConfiguration {
+public class
+CurrencyExchangeBotConfiguration {
     @Bean
     public TelegramBotsApi telegramBotsApi(CurrencyExchangeBot currencyExchangeBot) throws TelegramApiException {
         var api = new TelegramBotsApi(DefaultBotSession.class);
